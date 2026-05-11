@@ -30,7 +30,7 @@ public class CreateMenuItemRequestDTO {
     private int prepTimeMin;
 
     @NotNull
-    private Category category;
+    private Long categoryId;
 
 }
 

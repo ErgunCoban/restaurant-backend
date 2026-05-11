@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotEmpty;
 public class CreateOrderRequestDTO {
 
     @NotEmpty
-    private RestaurantTable table;
+    private Long restaurantTableId;
+
+    @NotEmpty
+    private Long  orderItemId;
 
 
 }
