@@ -1,7 +1,10 @@
 package com.example.restaurant.controller.impl;
 
 import com.example.restaurant.controller.IRestRestaurantTableController;
+import com.example.restaurant.controller.base.RestBaseController;
 import com.example.restaurant.dto.request.CreateRestaurantTableRequestDTO;
+import com.example.restaurant.dto.response.RestaurantTableResponseDTO;
+import com.example.restaurant.model.base.RootEntity;
 import com.example.restaurant.service.IRestaurantTableService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rest/api/restaurant/table")
-public class RestRestaurantTableControllerImpl implements IRestRestaurantTableController {
+public class RestRestaurantTableControllerImpl extends RestBaseController implements IRestRestaurantTableController {
 
     private final IRestaurantTableService restaurantTableService;
 
     @PostMapping("/save")
     @Override
-    public void saveRestaurantTable(@Valid @RequestBody CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
-        restaurantTableService.saveRestaruantTable(createRestaurantTableRequestDTO);
+    public RootEntity<RestaurantTableResponseDTO> saveRestaurantTable(@Valid @RequestBody CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
+        return ok(restaurantTableService.saveRestaurantTable(createRestaurantTableRequestDTO));
     }
 
 }
