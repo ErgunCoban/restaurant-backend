@@ -15,7 +15,7 @@ public class CreateOrderItemRequestDTO {
     @NotNull
     private BigDecimal unitPrice;
 
-    @NotEmpty
-    private MenuItem menuItem;
+    @NotNull
+    private Long menuItemId;
 
 }
