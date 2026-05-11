@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryResponseDTO {
+public class RestaurantTableResponseDTO {
 
     private String name;
 
