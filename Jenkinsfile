@@ -11,7 +11,7 @@ pipeline {
             steps {
                 cleanWs()   //workspace temizlenir.
                 checkout scmGit(    //checkout işlemine girilir.
-                    branches: [[name: "$branch_name"]],
+                    branches: [[name: "*/${env.BRANCH_NAME}"]], //her branchi takip edebileceğiz
                     extensions: [],
                     userRemoteConfigs: [[url: 'https://github.com/ErgunCoban/restaurant-backend']])
             }

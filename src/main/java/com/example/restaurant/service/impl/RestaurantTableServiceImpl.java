@@ -1,6 +1,7 @@
 package com.example.restaurant.service.impl;
 
 import com.example.restaurant.dto.request.CreateRestaurantTableRequestDTO;
+import com.example.restaurant.dto.response.RestaurantTableResponseDTO;
 import com.example.restaurant.mapper.RestaurantTableMapper;
 import com.example.restaurant.model.RestaurantTable;
 import com.example.restaurant.repository.RestaurantTableRepository;
@@ -17,8 +18,9 @@ public class RestaurantTableServiceImpl implements IRestaurantTableService {
     private final RestaurantTableMapper restaurantTableMapper;
 
     @Override
-    public void saveRestaruantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
+    public RestaurantTableResponseDTO saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
         RestaurantTable restaurantTable = restaurantTableMapper.toEntity(createRestaurantTableRequestDTO);
-        restaurantTableRepository.save(restaurantTable);
+        RestaurantTable savedRestaurantTable = restaurantTableRepository.save(restaurantTable);
+        return restaurantTableMapper.toResponse(savedRestaurantTable);
     }
 }

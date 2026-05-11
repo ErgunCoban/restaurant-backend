@@ -1,5 +1,6 @@
 package com.example.restaurant.model;
 
+import com.example.restaurant.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

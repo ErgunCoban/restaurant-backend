@@ -1,11 +1,11 @@
 package com.example.restaurant.controller;
 
 import com.example.restaurant.dto.request.CreateRestaurantTableRequestDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.restaurant.dto.response.RestaurantTableResponseDTO;
+import com.example.restaurant.model.base.RootEntity;
 
 public interface IRestRestaurantTableController {
 
-    public void saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
+    public RootEntity<RestaurantTableResponseDTO> saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
 
 }

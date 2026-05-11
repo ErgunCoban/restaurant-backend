@@ -1,5 +1,6 @@
 package com.example.restaurant.model;
 
+import com.example.restaurant.model.base.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
