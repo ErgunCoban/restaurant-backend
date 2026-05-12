@@ -1,31 +1,42 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'maven3'
-        jdk 'jdk21'
+    environment {
+        IMAGE_NAME = "restaurant-backend"
+        CONTAINER_NAME = "restaurant-backend-container"
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                cleanWs()   //workspace temizlenir.
-                checkout scmGit(    //checkout işlemine girilir.
-                    branches: [[name: "*/${env.BRANCH_NAME}"]], //her branchi takip edebileceğiz
-                    extensions: [],
-                    userRemoteConfigs: [[url: 'https://github.com/ErgunCoban/restaurant-backend']])
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build Jar') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh './mvnw clean package -DskipTests'
             }
-            post {
-                success {
-                    // Build sonrası oluşan jar dosyasını Jenkins üzerinde saklamak için
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME:$BUILD_NUMBER .'
+                sh 'docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest'
+            }
+        }
+
+        stage('Deploy Container') {
+            steps {
+                sh 'docker rm -f $CONTAINER_NAME || true'
+                sh 'docker run -d --name $CONTAINER_NAME -p 8081:8080 $IMAGE_NAME:latest'
             }
         }
     }
