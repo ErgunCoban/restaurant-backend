@@ -1,0 +1,73 @@
+package com.example.restaurant.jwt;
+
+import com.example.restaurant.exception.BaseException;
+import com.example.restaurant.exception.ErrorMessage;
+import com.example.restaurant.exception.MessageType;
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.Null;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.persister.collection.OneToManyPersister;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+
+@Component
+@RequiredArgsConstructor
+public class JWTAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JWTService jwtService;
+    private final UserDetailsService userDetailsService;
+
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String header = request.getHeader("Authorization");
+
+        if (header == null) {
+            filterChain.doFilter(request, response);
+            return ;
+        }
+
+        String token;
+        String username;
+
+        token = header.substring(7);
+
+        try {
+            username = jwtService.getUsernameByToken(token);
+            if(username!= null && SecurityContextHolder.getContext().getAuthentication()==null){
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                if(userDetails!=null && jwtService.isTokenValid(token)){
+
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(username,null,userDetails.getAuthorities());
+
+                    authenticationToken.setDetails(userDetails);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+            }
+        }
+
+        catch (ExpiredJwtException e){
+            throw new BaseException(new ErrorMessage(MessageType.TOKEN_IS_EXPIRED, e.getMessage()));
+        }
+
+        catch (Exception e){
+            throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, e.getMessage()));
+        }
+
+        filterChain.doFilter(request, response);
+    }
+}
