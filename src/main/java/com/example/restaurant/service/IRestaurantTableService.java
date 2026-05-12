@@ -5,6 +5,6 @@ import com.example.restaurant.dto.response.RestaurantTableResponseDTO;
 
 public interface IRestaurantTableService {
 
-    public RestaurantTableResponseDTO saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
+    RestaurantTableResponseDTO saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
 
 }
