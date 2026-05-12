@@ -7,6 +7,7 @@ public enum MessageType {
 
     NO_RECORD_EXISTS("1001", "No record found"),
     TOKEN_IS_EXPIRED("2001", "Token is expired"),
+    USERNAME_NOT_FOUND("3001", "Username not found"),
     GENERAL_EXCEPTION("9999", "A general error occured");
 
 

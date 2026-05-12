@@ -4,7 +4,7 @@ import com.example.restaurant.dto.request.CreateRestaurantTableRequestDTO;
 import com.example.restaurant.dto.response.RestaurantTableResponseDTO;
 import com.example.restaurant.model.base.RootEntity;
 
-public interface IRestRestaurantTableController {
+public interface IRestaurantTableController {
 
     public RootEntity<RestaurantTableResponseDTO> saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
 
