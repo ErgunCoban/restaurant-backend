@@ -49,7 +49,7 @@ pipeline {
                 sh '''
                 docker run -d \
                   --name $CONTAINER_NAME \
-                  -p 8081:8080 \
+                  -p 8081:8081 \
                   -e DB_URL="$DB_URL" \
                   -e DB_USERNAME="$DB_USERNAME" \
                   -e DB_PASSWORD="$DB_PASSWORD" \
