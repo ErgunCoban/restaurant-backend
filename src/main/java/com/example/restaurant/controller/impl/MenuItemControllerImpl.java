@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest/api/restaurant/menu")
+@RequestMapping("/api/restaurant/menu")
 public class MenuItemControllerImpl extends RestBaseController implements IMenuItemController {
 
     private final IMenuItemService menuItemService;
