@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest/api/restaurant/table")
+@RequestMapping("/api/restaurant/table")
 public class RestaurantTableControllerImpl extends RestBaseController implements IRestaurantTableController {
 
     private final IRestaurantTableService restaurantTableService;
