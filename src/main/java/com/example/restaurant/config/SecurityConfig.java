@@ -28,9 +28,9 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/rest/api/restaurant/table/save").permitAll()
+                        .requestMatchers("/api/restaurant/table/save").permitAll()
 
-                        .requestMatchers("/rest/api/restaurant/menu/save").hasRole("ADMIN")
+                        .requestMatchers("/api/restaurant/menu/save").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
