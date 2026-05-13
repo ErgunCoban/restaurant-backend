@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest/api/restaurant/table")
+@RequestMapping("/api/restaurant/table")
 public class RestaurantTableControllerImpl extends RestBaseController implements IRestaurantTableController {
 
     private final IRestaurantTableService restaurantTableService;
+
 
     @PostMapping("/save")
     @Override

@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/rest/api/restaurant/table/save", "/authenticate").permitAll()
 
-                        .requestMatchers("/rest/api/restaurant/menu/save").hasRole("ADMIN")
+                        .requestMatchers("/api/restaurant/menu/save").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
