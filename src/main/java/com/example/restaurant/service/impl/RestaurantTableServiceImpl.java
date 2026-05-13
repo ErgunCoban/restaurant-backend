@@ -9,6 +9,8 @@ import com.example.restaurant.service.IRestaurantTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RestaurantTableServiceImpl implements IRestaurantTableService {
@@ -22,5 +24,30 @@ public class RestaurantTableServiceImpl implements IRestaurantTableService {
         RestaurantTable restaurantTable = restaurantTableMapper.toEntity(createRestaurantTableRequestDTO);
         RestaurantTable savedRestaurantTable = restaurantTableRepository.save(restaurantTable);
         return restaurantTableMapper.toResponse(savedRestaurantTable);
+    }
+
+    @Override
+    public List<RestaurantTableResponseDTO> getAllRestaurantTables() {
+
+        List<RestaurantTable> restaurantTables = restaurantTableRepository.findAll();
+        return restaurantTableMapper.toResponseList(restaurantTables);
+    }
+
+    @Override
+    public RestaurantTableResponseDTO updateRestaurantTable(Long id,CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
+
+        restaurantTableRules.checkIfTableExistsById(id);
+        RestaurantTable restaurantTable = restaurantTableRepository.findById(id).get();
+        restaurantTable.setName(createRestaurantTableRequestDTO.getName());
+        RestaurantTable updatedRestaurantTable = restaurantTableRepository.save(restaurantTable);
+        return restaurantTableMapper.toResponse(updatedRestaurantTable);
+    }
+
+    @Override
+    public void deleteRestaurantTable(Long id) {
+
+        restaurantTableRules.checkIfTableExistsById(id);
+        RestaurantTable restaurantTable = restaurantTableRepository.findById(id).get();
+        restaurantTableRepository.delete(restaurantTable);
     }
 }

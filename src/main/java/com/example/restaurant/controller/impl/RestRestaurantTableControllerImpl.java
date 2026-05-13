@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rest/api/restaurant/table")
@@ -24,6 +27,28 @@ public class RestRestaurantTableControllerImpl extends RestBaseController implem
     @Override
     public RootEntity<RestaurantTableResponseDTO> saveRestaurantTable(@Valid @RequestBody CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
         return ok(restaurantTableService.saveRestaurantTable(createRestaurantTableRequestDTO));
+    }
+
+    @GetMapping("/list")
+    @Override
+    public RootEntity<List<RestaurantTableResponseDTO>> getAllRestaurantTables() {
+        return ok(restaurantTableService.getAllRestaurantTables());
+    }
+
+    @PutMapping("/update/{id}")
+    @Override
+    public RootEntity<RestaurantTableResponseDTO> updateRestaurantTable(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
+        return ok(restaurantTableService.updateRestaurantTable(id, createRestaurantTableRequestDTO)
+        );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @Override
+    public RootEntity<Void> deleteRestaurantTable(@PathVariable Long id) {
+        restaurantTableService.deleteRestaurantTable(id);
+        return ok(null);
     }
 
 }
