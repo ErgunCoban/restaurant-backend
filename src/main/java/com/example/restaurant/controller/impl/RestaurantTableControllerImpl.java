@@ -1,6 +1,6 @@
 package com.example.restaurant.controller.impl;
 
-import com.example.restaurant.controller.IRestRestaurantTableController;
+import com.example.restaurant.controller.IRestaurantTableController;
 import com.example.restaurant.controller.base.RestBaseController;
 import com.example.restaurant.dto.request.CreateRestaurantTableRequestDTO;
 import com.example.restaurant.dto.response.RestaurantTableResponseDTO;
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rest/api/restaurant/table")
-public class RestRestaurantTableControllerImpl extends RestBaseController implements IRestRestaurantTableController {
+public class RestaurantTableControllerImpl extends RestBaseController implements IRestaurantTableController {
 
     private final IRestaurantTableService restaurantTableService;
 

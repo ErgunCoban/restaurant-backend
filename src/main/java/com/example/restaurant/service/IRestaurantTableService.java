@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IRestaurantTableService {
 
-    public RestaurantTableResponseDTO saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
+    RestaurantTableResponseDTO saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO);
 
     List<RestaurantTableResponseDTO> getAllRestaurantTables();
 
