@@ -39,6 +39,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/restaurant/category/update/*").permitAll()
                         .requestMatchers("/api/restaurant/category/delete/*").permitAll()
 
+                        .requestMatchers("/api/restaurant/menu/save").permitAll()
+                        .requestMatchers("/api/restaurant/menu/{id}").permitAll()
+                        .requestMatchers("/api/restaurant/menu/category/{categoryId}").permitAll()
+                        .requestMatchers("/api/restaurant/menu/delete/{id}").permitAll()
+                        .requestMatchers("/api/restaurant/menu/update/{id}").permitAll()
+
                         .requestMatchers("/api/restaurant/menu/save").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
