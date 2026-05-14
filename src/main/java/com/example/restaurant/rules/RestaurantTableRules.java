@@ -20,6 +20,12 @@ public class RestaurantTableRules {
         };
     }
 
+    public void checkIfTableExistsById(Long id){
 
-
+        if(!restaurantTableRepository.existsById(id)){
+            throw new BaseException(
+                    new ErrorMessage(MessageType.NO_RECORD_EXISTS, id.toString())
+            );
+        }
+    }
 }

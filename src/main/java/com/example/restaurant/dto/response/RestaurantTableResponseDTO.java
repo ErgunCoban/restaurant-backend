@@ -8,5 +8,6 @@ import lombok.Setter;
 public class RestaurantTableResponseDTO {
 
     private String name;
+    private Long id;
 
 }

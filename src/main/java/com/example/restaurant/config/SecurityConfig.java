@@ -28,7 +28,16 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/rest/api/restaurant/table/save", "/authenticate").permitAll()
+                        .requestMatchers("/api/restaurant/table/save").permitAll()
+                        .requestMatchers("/api/restaurant/table/list").permitAll()
+                        .requestMatchers("/api/restaurant/table/update/*").permitAll()
+                        .requestMatchers("/api/restaurant/table/delete/*").permitAll()
+
+                        .requestMatchers("/api/restaurant/category/save").permitAll()
+                        .requestMatchers("/api/restaurant/category/list").permitAll()
+                        .requestMatchers("/api/restaurant/category/*").permitAll()
+                        .requestMatchers("/api/restaurant/category/update/*").permitAll()
+                        .requestMatchers("/api/restaurant/category/delete/*").permitAll()
 
                         .requestMatchers("/api/restaurant/menu/save").hasRole("ADMIN")
 
