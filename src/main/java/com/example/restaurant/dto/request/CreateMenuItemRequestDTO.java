@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 public class CreateMenuItemRequestDTO {
@@ -18,12 +20,12 @@ public class CreateMenuItemRequestDTO {
     private String description;
 
     @NotNull
-    private Double price;
+    private BigDecimal price;
 
     @NotBlank
     private String imageUrl;
 
-    @NotEmpty
+    @NotNull
     private Boolean isAvailable;
 
     @NotNull

@@ -4,7 +4,13 @@ import com.example.restaurant.model.MenuItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
+
+    Boolean existsByName(String name);
+
+    List<MenuItem> findByCategoryId(Long categoryId);
 
 }

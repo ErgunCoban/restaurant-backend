@@ -22,6 +22,7 @@ public class RestaurantTableServiceImpl implements IRestaurantTableService {
 
     @Override
     public RestaurantTableResponseDTO saveRestaurantTable(CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
+        restaurantTableRules.checkIfTableAlreadyExists(createRestaurantTableRequestDTO.getName());
         RestaurantTable restaurantTable = restaurantTableMapper.toEntity(createRestaurantTableRequestDTO);
         RestaurantTable savedRestaurantTable = restaurantTableRepository.save(restaurantTable);
         return restaurantTableMapper.toResponse(savedRestaurantTable);
