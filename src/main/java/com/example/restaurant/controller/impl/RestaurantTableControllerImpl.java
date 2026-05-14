@@ -23,6 +23,7 @@ public class RestaurantTableControllerImpl extends RestBaseController implements
 
     private final IRestaurantTableService restaurantTableService;
 
+
     @PostMapping("/save")
     @Override
     public RootEntity<RestaurantTableResponseDTO> saveRestaurantTable(@Valid @RequestBody CreateRestaurantTableRequestDTO createRestaurantTableRequestDTO) {
