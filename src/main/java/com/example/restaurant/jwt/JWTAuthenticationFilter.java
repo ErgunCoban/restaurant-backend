@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.persister.collection.OneToManyPersister;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
@@ -28,6 +31,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver exceptionResolver;
 
 
     @Override
@@ -48,12 +55,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             username = jwtService.getUsernameByToken(token);
-            if(username!= null && SecurityContextHolder.getContext().getAuthentication()==null){
+            if(username != null && SecurityContextHolder.getContext().getAuthentication()==null){
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if(userDetails!=null && jwtService.isTokenValid(token)){
 
                     UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(username,null,userDetails.getAuthorities());
+                            new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
 
                     authenticationToken.setDetails(userDetails);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -62,7 +69,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
 
         catch (ExpiredJwtException e){
-            throw new BaseException(new ErrorMessage(MessageType.TOKEN_IS_EXPIRED, e.getMessage()));
+            exceptionResolver.resolveException(request, response, null, new BaseException(new ErrorMessage(MessageType.TOKEN_IS_EXPIRED, e.getMessage())));
         }
 
         catch (Exception e){

@@ -5,6 +5,7 @@ import com.example.restaurant.jwt.JWTAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,25 +29,18 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/restaurant/table/save").permitAll()
-                        .requestMatchers("/api/restaurant/table/list").permitAll()
-                        .requestMatchers("/api/restaurant/table/update/*").permitAll()
-                        .requestMatchers("/api/restaurant/table/delete/*").permitAll()
+                        //Herkese açık olan endpointler
+                        .requestMatchers("/authenticate", "/refreshToken").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/restaurant/menu/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/restaurant/category/**").permitAll()
 
-                        .requestMatchers("/api/restaurant/category/save").permitAll()
-                        .requestMatchers("/api/restaurant/category/list").permitAll()
-                        .requestMatchers("/api/restaurant/category/*").permitAll()
-                        .requestMatchers("/api/restaurant/category/update/*").permitAll()
-                        .requestMatchers("/api/restaurant/category/delete/*").permitAll()
+                        //Sadece adminin erişebileceği endpointler
+                        .requestMatchers(HttpMethod.POST, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/restaurant/table/**").hasRole("ADMIN")
 
-                        .requestMatchers("/api/restaurant/menu/save").permitAll()
-                        .requestMatchers("/api/restaurant/menu/{id}").permitAll()
-                        .requestMatchers("/api/restaurant/menu/category/{categoryId}").permitAll()
-                        .requestMatchers("/api/restaurant/menu/delete/{id}").permitAll()
-                        .requestMatchers("/api/restaurant/menu/update/{id}").permitAll()
-
-                        .requestMatchers("/api/restaurant/menu/save").hasRole("ADMIN")
-
+                        //Geri kalan her şey authenticate isteyecek
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
