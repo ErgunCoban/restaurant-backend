@@ -33,8 +33,12 @@ public class SecurityConfig {
                         .requestMatchers("/authenticate", "/refreshToken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/menu/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/category/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/restaurant/order/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/restaurant/order-item/**").permitAll()
 
                         //Sadece adminin erişebileceği endpointler
+                        .requestMatchers(HttpMethod.GET, "/api/restaurant/order/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/restaurant/order/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")

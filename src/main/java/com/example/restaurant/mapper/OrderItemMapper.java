@@ -2,11 +2,14 @@ package com.example.restaurant.mapper;
 
 import com.example.restaurant.dto.request.CreateOrderItemRequestDTO;
 import com.example.restaurant.dto.response.OrderItemResponseDTO;
+import com.example.restaurant.dto.response.OrderResponseDTO;
+import com.example.restaurant.model.Order;
 import com.example.restaurant.model.OrderItem;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
 
 
 @Mapper(componentModel = "spring", uses = {MenuItemMapper.class})
@@ -17,8 +20,10 @@ public interface OrderItemMapper {
     @Mapping(target = "order", ignore = true)
     OrderItem toEntity(CreateOrderItemRequestDTO dto);
 
-    @Mapping(target = "totalPrice", source = "totalPrice")
+
     @Mapping(target = "menuItem", source = "menuItem")
     OrderItemResponseDTO toResponseDTO(OrderItem orderItem);
+
+    List<OrderItem> toEntityList(List<CreateOrderItemRequestDTO> createOrderItemRequestDTOList);
 
 }

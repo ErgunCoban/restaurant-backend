@@ -23,8 +23,6 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "unit_price")
-    private BigDecimal unitPrice;
 
     @ManyToOne
     @JoinColumn(name = "menu_item_id", nullable = false)
@@ -35,10 +33,5 @@ public class OrderItem {
     private Order order;
 
 
-    public BigDecimal getTotalPrice() {
-
-        if (unitPrice == null) return BigDecimal.ZERO;
-        return unitPrice.multiply(BigDecimal.valueOf(quantity));
-    }
 
 }
