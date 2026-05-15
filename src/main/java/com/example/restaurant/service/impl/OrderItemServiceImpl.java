@@ -22,11 +22,11 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
 
     @Override
-    public void save(List<CreateOrderItemRequestDTO> createOrderItemRequestDTOList) {
+    public void save(CreateOrderItemRequestDTO createOrderItemRequestDTO) {
 
-        List<OrderItem> orderItems = orderItemMapper.toEntityList(createOrderItemRequestDTOList);
+        OrderItem orderItem = orderItemMapper.toEntity(createOrderItemRequestDTO);
 
-        orderItemRepository.saveAll(orderItems);
+        orderItemRepository.save(orderItem);
 
 
     }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IOrderController {
 
-    RootEntity<Void> saveOrder(CreateOrderRequestDTO createOrderRequestDTO);
+    RootEntity<Void> saveOrder(List<CreateOrderRequestDTO> createOrderRequestDTO);
 
     RootEntity<Void> cancelOrder(Long id);
 
