@@ -23,9 +23,9 @@ public class OrderItemControllerImpl implements IOrderItemController {
 
     @PostMapping("/save")
     @Override
-    public RootEntity<Void> save(List<CreateOrderItemRequestDTO> orderItemRequestDTOList) {
+    public RootEntity<Void> save(CreateOrderItemRequestDTO orderItemRequestDTO) {
 
-        orderItemService.save(orderItemRequestDTOList);
+        orderItemService.save(orderItemRequestDTO);
         return ok(null);
     }
 }

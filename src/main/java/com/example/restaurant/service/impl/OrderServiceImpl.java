@@ -20,10 +20,10 @@ public class OrderServiceImpl implements IOrderService {
 
 
     @Override
-    public void saveOrder(CreateOrderRequestDTO createOrderRequestDTO) {
+    public void saveOrder(List<CreateOrderRequestDTO> createOrderRequestDTOList) {
 
-        Order order = orderMapper.toEntity(createOrderRequestDTO);
-        orderRepository.save(order);
+        List<Order> order = orderMapper.toEntityList(createOrderRequestDTOList);
+        orderRepository.saveAll(order);
 
     }
 
