@@ -47,14 +47,13 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
             authenticationProvider.authenticate(authenticationToken);
 
-            Optional<User> optionalUser = userRepository.findByUsername(authRequestDTO.getEmail());
+            Optional<User> optionalUser = userRepository.findByEmail(authRequestDTO.getEmail());
 
             String accessToken = jwtService.generateToken(optionalUser.get());
 
-
             RefreshToken savedRefreshToken = refreshTokenRepository.save(createRefreshToken(optionalUser.get()));
 
-            return new AuthResponseDTO(accessToken, savedRefreshToken.getRefreshToken());
+            return new AuthResponseDTO(accessToken, savedRefreshToken.getRefreshToken(), optionalUser.get().getRole());
         }catch (Exception e){
             throw new BaseException(new ErrorMessage(MessageType.USERNAME_OR_PASSWORD_INCORRECT, e.getMessage()));
         }
@@ -76,10 +75,11 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         }
 
         User user = optionalRefreshToken.get().getUser();
+        refreshTokenRepository.delete(optionalRefreshToken.get());
         String accessToken = jwtService.generateToken(user);
         RefreshToken savedRefreshToken = refreshTokenRepository.save(createRefreshToken(user));
 
-        return new AuthResponseDTO(accessToken, savedRefreshToken.getRefreshToken());
+        return new AuthResponseDTO(accessToken, savedRefreshToken.getRefreshToken(), user.getRole());
     }
 
 }

@@ -30,10 +30,10 @@ public class AppConfig {
     public UserDetailsService userDetailsService(){
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                Optional<User> optional = userRepository.findByUsername(username);
+            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+                Optional<User> optional = userRepository.findByEmail(email);
                 if (optional.isEmpty()){
-                    throw new BaseException(new ErrorMessage(MessageType.USERNAME_NOT_FOUND, username));
+                    throw new BaseException(new ErrorMessage(MessageType.USERNAME_NOT_FOUND, email));
                 }
                 return optional.get();
             }
