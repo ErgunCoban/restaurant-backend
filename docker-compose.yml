@@ -4,7 +4,7 @@ services:
 
   db:
     image: postgres:15-alpine
-    container_name: postgres-db
+    container_name: postgres-db-restaurant
 
     env_file:
       - .env
@@ -14,6 +14,7 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
     restart: unless-stopped
 
