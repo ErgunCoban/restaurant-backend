@@ -23,15 +23,16 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "unit_price")
+    private BigDecimal unitPrice;
 
     @ManyToOne
     @JoinColumn(name = "menu_item_id", nullable = false)
     private MenuItem menuItem;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
-
 
 
 }

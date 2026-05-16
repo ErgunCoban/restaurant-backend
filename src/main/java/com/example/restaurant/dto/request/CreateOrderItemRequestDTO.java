@@ -14,10 +14,7 @@ import java.math.BigDecimal;
 public class CreateOrderItemRequestDTO {
 
     @NotNull
-    private int quantity;
-
-    @NotNull
-    private BigDecimal unitPrice;
+    private Integer quantity;
 
     @NotNull
     private Long menuItemId;

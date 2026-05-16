@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IOrderService {
 
-     void saveOrder(List<CreateOrderRequestDTO> createOrderRequestDTO);
+     void saveOrder(CreateOrderRequestDTO createOrderRequestDTO);
 
      void cancelOrder(long id);
 

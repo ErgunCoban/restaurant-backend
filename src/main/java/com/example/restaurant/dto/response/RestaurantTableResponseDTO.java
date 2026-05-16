@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class RestaurantTableResponseDTO {
 
-    private String name;
     private Long id;
+
+    private String name;
 
 }
