@@ -2,15 +2,18 @@ package com.example.restaurant.mapper;
 
 import com.example.restaurant.dto.request.CreateOrderRequestDTO;
 import com.example.restaurant.dto.response.CategoryResponseDTO;
+import com.example.restaurant.dto.response.OrderItemResponseDTO;
 import com.example.restaurant.dto.response.OrderResponseDTO;
 import com.example.restaurant.enums.OrderStatus;
 import com.example.restaurant.model.Category;
 import com.example.restaurant.model.Order;
+import com.example.restaurant.model.OrderItem;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -29,8 +32,13 @@ public interface OrderMapper {
         order.setStatus(OrderStatus.PREPARING);
     }
 
-    @Mapping(source = "table", target = "table")
-    @Mapping(source = "orderItems", target = "orderItems")
+    @AfterMapping
+    default void setTotalPrice(@MappingTarget OrderItemResponseDTO dto, OrderItem orderItem){
+        dto.setTotalPrice(
+                orderItem.getUnitPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity()))
+        );
+    }
+
     OrderResponseDTO toResponse(Order order);
 
     List<OrderResponseDTO> toResponseDTOList(List<Order> orders);

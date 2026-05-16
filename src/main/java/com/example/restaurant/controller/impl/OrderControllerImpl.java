@@ -22,8 +22,8 @@ public class OrderControllerImpl extends RestBaseController implements IOrderCon
 
     @PostMapping("/save")
     @Override
-    public RootEntity<Void> saveOrder(@Valid @RequestBody List< CreateOrderRequestDTO>  createOrderRequestDTOList) {
-        orderService.saveOrder(createOrderRequestDTOList);
+    public RootEntity<Void> saveOrder(@Valid @RequestBody CreateOrderRequestDTO createOrderRequestDTO) {
+        orderService.saveOrder(createOrderRequestDTO);
 
         return ok(null);
     }

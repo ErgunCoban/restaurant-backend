@@ -34,7 +34,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/menu/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/category/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/restaurant/order/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/restaurant/order-item/**").permitAll()
 
                         //Sadece adminin erişebileceği endpointler
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/order/**").hasRole("ADMIN")

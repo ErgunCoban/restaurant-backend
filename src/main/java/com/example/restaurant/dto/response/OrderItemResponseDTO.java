@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 public class OrderItemResponseDTO {
 
-    private int quantity;
+    private Integer quantity;
 
     private BigDecimal unitPrice;
 
