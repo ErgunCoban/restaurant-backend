@@ -1,6 +1,7 @@
 package com.example.restaurant.service.impl;
 
 import com.example.restaurant.dto.request.CreateOrderRequestDTO;
+import com.example.restaurant.dto.request.UpdateOrderRequest;
 import com.example.restaurant.dto.response.OrderResponseDTO;
 import com.example.restaurant.enums.OrderStatus;
 import com.example.restaurant.exception.BaseException;
@@ -15,13 +16,16 @@ import com.example.restaurant.model.OrderItem;
 import com.example.restaurant.model.RestaurantTable;
 import com.example.restaurant.repository.MenuItemRepository;
 import com.example.restaurant.repository.OrderRepository;
+import com.example.restaurant.rules.OrderRules;
 import com.example.restaurant.rules.RestaurantTableRules;
 import com.example.restaurant.service.IOrderService;
+import jakarta.persistence.EnumType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +36,7 @@ public class OrderServiceImpl implements IOrderService {
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
     private final RestaurantTableRules restaurantTableRules;
+    private final OrderRules orderRules;
 
 
     @Override
@@ -66,13 +71,6 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public void cancelOrder(long id) {
-
-        orderRepository.deleteById(id);
-
-    }
-
-    @Override
     public List<OrderResponseDTO> getAllOrders() {
 
         List<Order> orders = orderRepository.findAll();
@@ -86,4 +84,20 @@ public class OrderServiceImpl implements IOrderService {
         Order order = orderRepository.findById(id).get();
         return   orderMapper.toResponse(order);
     }
+
+    @Override
+    public void updateOrderById(Long id, UpdateOrderRequest updateOrderRequest) {
+        orderRules.checkIfOrderExists(id);
+
+        Order order = orderRepository.findById(id).get();
+        order.setStatus(updateOrderRequest.getStatus());
+        orderRepository.save(order);
+    }
+
+    @Override
+    public List<OrderResponseDTO> getOrdersByStatus(OrderStatus status) {
+        return orderMapper.toResponseDTOList(orderRepository.findByStatus(status));
+    }
+
+
 }

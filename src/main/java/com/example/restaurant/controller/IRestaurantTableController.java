@@ -21,4 +21,7 @@ public interface IRestaurantTableController {
     );
 
     RootEntity<Void> deleteRestaurantTable(Long id);
+
+    RootEntity<RestaurantTableResponseDTO> getRestaurantTableById(Long id);
+
 }

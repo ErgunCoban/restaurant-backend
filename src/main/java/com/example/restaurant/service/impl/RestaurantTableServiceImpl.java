@@ -52,4 +52,12 @@ public class RestaurantTableServiceImpl implements IRestaurantTableService {
         RestaurantTable restaurantTable = restaurantTableRepository.findById(id).get();
         restaurantTableRepository.delete(restaurantTable);
     }
+
+    @Override
+    public RestaurantTableResponseDTO getRestaurantTableById(Long id) {
+        restaurantTableRules.checkIfTableExistsById(id);
+
+        RestaurantTable restaurantTable = restaurantTableRepository.findById(id).get();
+        return restaurantTableMapper.toResponse(restaurantTable);
+    }
 }

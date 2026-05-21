@@ -28,7 +28,7 @@ public class RootEntity<T> {
     public static <T> RootEntity<T> error(String errorMessage){
         RootEntity<T> rootEntity = new RootEntity<>();
 
-        rootEntity.setStatus(500);  //error ise 500 kodu setlenir
+        rootEntity.setStatus(400);  //error ise 500 kodu setlenir
         rootEntity.setPayload(null);    //error olduğu için veri yok null setlenir
         rootEntity.setErrorMessage(errorMessage);
 
