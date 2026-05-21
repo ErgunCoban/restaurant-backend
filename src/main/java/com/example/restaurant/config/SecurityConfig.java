@@ -37,9 +37,8 @@ public class SecurityConfig {
 
                         //Sadece adminin erişebileceği endpointler
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/order/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/restaurant/order/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**", "/api/restaurant/order/update/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/table/**").hasRole("ADMIN")
 

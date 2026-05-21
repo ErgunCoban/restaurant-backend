@@ -15,4 +15,6 @@ public interface IRestaurantTableService {
 
     void deleteRestaurantTable(Long id);
 
+    RestaurantTableResponseDTO getRestaurantTableById(Long id);
+
 }

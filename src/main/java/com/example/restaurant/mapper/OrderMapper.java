@@ -42,6 +42,7 @@ public interface OrderMapper {
     OrderResponseDTO toResponse(Order order);
 
     List<OrderResponseDTO> toResponseDTOList(List<Order> orders);
+
     List<Order> toEntityList(List<CreateOrderRequestDTO> createOrderRequestDTOList);
 
 }

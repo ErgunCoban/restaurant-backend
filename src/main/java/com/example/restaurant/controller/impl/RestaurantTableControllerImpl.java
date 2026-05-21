@@ -52,4 +52,10 @@ public class RestaurantTableControllerImpl extends RestBaseController implements
         return ok(null);
     }
 
+    @GetMapping("/{id}")
+    @Override
+    public RootEntity<RestaurantTableResponseDTO> getRestaurantTableById(@PathVariable(name = "id") Long id) {
+        return ok(restaurantTableService.getRestaurantTableById(id));
+    }
+
 }

@@ -3,7 +3,9 @@ package com.example.restaurant.controller.impl;
 import com.example.restaurant.controller.IOrderController;
 import com.example.restaurant.controller.base.RestBaseController;
 import com.example.restaurant.dto.request.CreateOrderRequestDTO;
+import com.example.restaurant.dto.request.UpdateOrderRequest;
 import com.example.restaurant.dto.response.OrderResponseDTO;
+import com.example.restaurant.enums.OrderStatus;
 import com.example.restaurant.model.base.RootEntity;
 import com.example.restaurant.service.IOrderService;
 import jakarta.validation.Valid;
@@ -28,25 +30,31 @@ public class OrderControllerImpl extends RestBaseController implements IOrderCon
         return ok(null);
     }
 
-    @DeleteMapping("/delete/{id}")
-    @Override
-    public RootEntity<Void> cancelOrder( @PathVariable(name = "id") Long id) {
-        orderService.cancelOrder(id);
-
-        return ok(null);
-    }
-
-    @GetMapping("/list")
+    @GetMapping("/all-orders")
     @Override
     public RootEntity<List<OrderResponseDTO>> getAllOrders() {
-
         return ok(orderService.getAllOrders());
     }
 
     @GetMapping("/{id}")
     @Override
     public RootEntity<OrderResponseDTO> getOrderById(@PathVariable(name = "id") Long id) {
-
         return ok(orderService.getOrderById(id));
     }
+
+    @PutMapping("/update/{id}")
+    @Override
+    public RootEntity<Void> updateOrderById(@PathVariable(name = "id") Long id, @RequestBody UpdateOrderRequest updateOrderRequest) {
+         orderService.updateOrderById(id, updateOrderRequest);
+
+         return ok(null);
+    }
+
+    //orders?status=PREPARING tarzında url ye sahip olacak
+    @GetMapping("/orders")
+    @Override
+    public RootEntity<List<OrderResponseDTO>> getOrdersByStatus(@RequestParam OrderStatus status) {
+        return ok(orderService.getOrdersByStatus(status));
+    }
+
 }
