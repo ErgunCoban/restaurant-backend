@@ -42,8 +42,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/restaurant/menu/**", "/api/restaurant/category/**", "/api/restaurant/table/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/table/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/restaurant/report/revenue").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/restaurant/report/count").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/restaurant/report/peak-hour").hasRole("ADMIN")
 
-                        //Geri kalan her şey authenticate isteyecek
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)

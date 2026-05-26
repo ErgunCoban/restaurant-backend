@@ -2,6 +2,8 @@ package com.example.restaurant.controller.impl;
 
 import com.example.restaurant.controller.IReportController;
 import com.example.restaurant.controller.base.RestBaseController;
+import com.example.restaurant.dto.response.analysis.OrderCountResponseDTO;
+import com.example.restaurant.dto.response.analysis.PeakHourResponseDTO;
 import com.example.restaurant.dto.response.analysis.RevenueReportResponseDTO;
 import com.example.restaurant.enums.ReportPeriod;
 import com.example.restaurant.model.base.RootEntity;
@@ -24,5 +26,18 @@ public class ReportControllerImpl extends RestBaseController implements IReportC
     public RootEntity<RevenueReportResponseDTO> getRevenueReport(@RequestParam ReportPeriod period) {
         return ok(reportService.getRevenueReport(period));
     }
+
+    @GetMapping("/count")
+    @Override
+    public RootEntity<OrderCountResponseDTO> getTotalOrderCount(@RequestParam ReportPeriod period) {
+        return ok(reportService.getTotalOrderCount(period));
+    }
+
+    @GetMapping("/peak-hour")
+    @Override
+    public RootEntity<PeakHourResponseDTO> getPeakHourReport(@RequestParam ReportPeriod period) {
+        return ok(reportService.getPeakHourReport(period));
+    }
+
 
 }
