@@ -19,4 +19,16 @@ public interface OrderRepository  extends JpaRepository<Order, Long> {
     @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.createTime >= CAST(:startDate AS date) AND o.createTime < CAST(:endDate AS date)")
     BigDecimal getTotalRevenueBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.createTime >= :startDate AND o.createTime < :endDate")
+    Long getTotalOrderCountBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+
+    @Query(value = "SELECT EXTRACT(HOUR FROM o.create_time) AS order_hour, COUNT(*) AS count_order " +
+            "FROM restaurant.orders o " +
+            "WHERE o.create_time BETWEEN :startDate AND :endDate " +
+            "GROUP BY order_hour " +
+            "ORDER BY count_order DESC " +
+            "LIMIT 1", nativeQuery = true)
+    List<Object[]> findPeakHourWithCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }
