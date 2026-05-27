@@ -1,9 +1,9 @@
 package com.example.restaurant.service;
 
-import com.example.restaurant.dto.response.analysis.OrderCountResponseDTO;
-import com.example.restaurant.dto.response.analysis.PeakHourResponseDTO;
-import com.example.restaurant.dto.response.analysis.RevenueReportResponseDTO;
+import com.example.restaurant.dto.response.analysis.*;
 import com.example.restaurant.enums.ReportPeriod;
+
+import java.util.List;
 
 public interface IReportService {
 
@@ -12,5 +12,9 @@ public interface IReportService {
     OrderCountResponseDTO getTotalOrderCount(ReportPeriod period);
 
     PeakHourResponseDTO getPeakHourReport(ReportPeriod period);
+
+    TableActivityListResponseDTO getMostActiveTablesReport(ReportPeriod period);
+
+    MenuItemReportResponseDTO getMenuItemReport(ReportPeriod period);
 
 }

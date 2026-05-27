@@ -31,4 +31,14 @@ public interface OrderRepository  extends JpaRepository<Order, Long> {
             "ORDER BY count_order DESC " +
             "LIMIT 1", nativeQuery = true)
     List<Object[]> findPeakHourWithCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+
+    @Query(value = "SELECT rt.name, COUNT(*) as order_count " +
+            "FROM restaurant.orders o JOIN restaurant.restaurant_table rt ON o.restaurant_table_id = rt.id " +
+            "WHERE o.create_time BETWEEN :startDate AND :endDate " +
+            "GROUP BY rt.name " +
+            "ORDER BY order_count DESC",
+            nativeQuery = true)
+    List<Object[]> findMostActiveTables(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
 }
