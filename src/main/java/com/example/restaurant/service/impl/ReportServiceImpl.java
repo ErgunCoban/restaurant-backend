@@ -1,9 +1,8 @@
 package com.example.restaurant.service.impl;
 
-import com.example.restaurant.dto.response.analysis.OrderCountResponseDTO;
-import com.example.restaurant.dto.response.analysis.PeakHourResponseDTO;
-import com.example.restaurant.dto.response.analysis.RevenueReportResponseDTO;
+import com.example.restaurant.dto.response.analysis.*;
 import com.example.restaurant.enums.ReportPeriod;
+import com.example.restaurant.repository.OrderItemRepository;
 import com.example.restaurant.repository.OrderRepository;
 import com.example.restaurant.service.IReportService;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +12,17 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-    public class ReportServiceImpl implements IReportService {
+public class ReportServiceImpl implements IReportService {
 
     private final OrderRepository orderRepository;
+
+    private final OrderItemRepository orderItemRepository;
 
     private LocalDate[] getDateRange(ReportPeriod period) {
         LocalDate today = LocalDate.now();
@@ -189,6 +190,76 @@ import java.util.List;
         );
     }
 
+    @Override
+    public TableActivityListResponseDTO getMostActiveTablesReport(ReportPeriod period) {
+        LocalDate[] periodRange = getDateRange(period);
+        LocalDate periodStart = periodRange[0];
+        LocalDate periodEnd = periodRange[1];
+
+        Date dbPeriodStart = java.sql.Date.valueOf(periodStart);
+        Date dbPeriodEnd = java.sql.Date.valueOf(periodEnd);
+
+        List<Object[]> results = orderRepository.findMostActiveTables(dbPeriodStart, dbPeriodEnd);
+
+        List<TableActivityResponseDTO> tablesActivity = new ArrayList<>();
+
+        if (!results.isEmpty()){
+
+            for (Object[] row : results){
+                TableActivityResponseDTO dto = new TableActivityResponseDTO();
+                dto.setTableName(row[0].toString());
+                dto.setOrderCount(((Number) row[1]).longValue());
+                tablesActivity.add(dto);
+            }
+
+            return new TableActivityListResponseDTO(
+                    tablesActivity,
+                    tablesActivity.isEmpty() ? null : tablesActivity.get(0),
+                    period,
+                    periodStart,
+                    periodEnd
+            );
+
+        }else{
+            return null;
+        }
+
+    }
+
+    @Override
+    public MenuItemReportResponseDTO getMenuItemReport(ReportPeriod period) {
+        LocalDate[] periodRange = getDateRange(period);
+        LocalDate periodStart = periodRange[0];
+        LocalDate periodEnd = periodRange[1];
+
+        Date dbPeriodStart = java.sql.Date.valueOf(periodStart);
+        Date dbPeriodEnd = java.sql.Date.valueOf(periodEnd);
+
+        List<Object[]> results = orderItemRepository.findMostOrderedProducts(dbPeriodStart, dbPeriodEnd);
+
+        List<MenuItemCountDTO> menuItemOrderCounts = new ArrayList<>();
+
+        if (!results.isEmpty()){
+
+            for (Object[] row : results){
+                MenuItemCountDTO dto = new MenuItemCountDTO();
+                dto.setName(row[0].toString());
+                dto.setCount(((Number) row[1]).longValue());
+                menuItemOrderCounts.add(dto);
+            }
+
+            return new MenuItemReportResponseDTO(
+                    menuItemOrderCounts,
+                    period,
+                    periodStart,
+                    periodEnd
+            );
+        }else {
+            return null;
+        }
+
+    }
+
 
     private Double calculateLongChangePercentage(Long current, Long previous) {
         if (previous == 0) {
@@ -196,7 +267,7 @@ import java.util.List;
         }
         double difference = current - previous;
         double percentage = (difference / previous) * 100;
-        return Math.round(percentage * 100.0) / 100.0; //
+        return Math.round(percentage * 100.0) / 100.0;
     }
 
     private Double calculateChangePercentage(BigDecimal current, BigDecimal previous){
