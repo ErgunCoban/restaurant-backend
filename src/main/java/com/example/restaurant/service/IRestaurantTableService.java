@@ -17,4 +17,5 @@ public interface IRestaurantTableService {
 
     RestaurantTableResponseDTO getRestaurantTableById(Long id);
 
+    Boolean hasActiveOrder(Long tableId);
 }

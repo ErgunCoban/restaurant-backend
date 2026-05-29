@@ -24,4 +24,5 @@ public interface IRestaurantTableController {
 
     RootEntity<RestaurantTableResponseDTO> getRestaurantTableById(Long id);
 
+    RootEntity<Boolean> hasActiveOrder(Long id);
 }

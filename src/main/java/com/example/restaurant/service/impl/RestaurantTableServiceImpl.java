@@ -9,6 +9,8 @@ import com.example.restaurant.rules.RestaurantTableRules;
 import com.example.restaurant.service.IRestaurantTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.restaurant.enums.OrderStatus;
+import com.example.restaurant.repository.OrderRepository;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class RestaurantTableServiceImpl implements IRestaurantTableService {
 
     private final RestaurantTableRepository restaurantTableRepository;
+    private final OrderRepository orderRepository;
     private final RestaurantTableRules restaurantTableRules;
     private final RestaurantTableMapper restaurantTableMapper;
 
@@ -59,5 +62,11 @@ public class RestaurantTableServiceImpl implements IRestaurantTableService {
 
         RestaurantTable restaurantTable = restaurantTableRepository.findById(id).get();
         return restaurantTableMapper.toResponse(restaurantTable);
+    }
+
+    @Override
+    public Boolean hasActiveOrder(Long tableId) {
+        restaurantTableRules.checkIfTableExistsById(tableId);
+        return orderRepository.existsByTable_IdAndStatus(tableId, OrderStatus.PREPARING);
     }
 }

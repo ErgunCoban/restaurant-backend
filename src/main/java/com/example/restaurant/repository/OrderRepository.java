@@ -16,6 +16,8 @@ public interface OrderRepository  extends JpaRepository<Order, Long> {
 
     List<Order> findByStatus(OrderStatus status);
 
+    boolean existsByTable_IdAndStatus(Long tableId, OrderStatus status);
+
     @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.createTime >= CAST(:startDate AS date) AND o.createTime < CAST(:endDate AS date)")
     BigDecimal getTotalRevenueBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 

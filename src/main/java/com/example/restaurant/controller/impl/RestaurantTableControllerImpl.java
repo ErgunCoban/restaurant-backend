@@ -58,4 +58,9 @@ public class RestaurantTableControllerImpl extends RestBaseController implements
         return ok(restaurantTableService.getRestaurantTableById(id));
     }
 
+    @GetMapping("/{id}/has-active-order")
+    @Override
+    public RootEntity<Boolean> hasActiveOrder(@PathVariable Long id) {
+        return ok(restaurantTableService.hasActiveOrder(id));
+    }
 }
