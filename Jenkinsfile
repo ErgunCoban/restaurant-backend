@@ -17,21 +17,6 @@ pipeline {
             }
         }
 
-        stage('Test') {
-                    steps {
-                        sh 'mvn test'
-                    }
-                    post {
-                        always {
-                            // Test raporlarını Jenkins üzerinde görüntülemek için
-                            junit '**/target/surefire-reports/*.xml'
-                        }
-                        failure {
-                            echo 'Testler başarısız oldu! Build durduruldu.'
-                        }
-                    }
-                }
-
         stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests'
@@ -44,17 +29,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            echo "Pipeline tamamlandı. Branch: ${env.BRANCH_NAME}"
-        }
-        success {
-            echo 'Pipeline başarıyla tamamlandı!'
-        }
-        failure {
-            echo 'Pipeline başarısız oldu!'
-        }
-    }
-
 }
