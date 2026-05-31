@@ -17,16 +17,43 @@ pipeline {
             }
         }
 
+        stage('Test') {
+                    steps {
+                        sh 'mvn test'
+                    }
+                    post {
+                        always {
+                            //test raporlarını Jenkins üzerinde görüntülemek için
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                        failure {
+                            echo 'Testler başarısız oldu! Build durduruldu.'
+                        }
+                    }
+                }
+
         stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests'
             }
             post {
                 success {
-                    // Build sonrası oluşan jar dosyasını Jenkins üzerinde saklamak için
+                    //build sonrası oluşan jar dosyasını Jenkins üzerinde saklamak için
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline tamamlandı. Branch: ${env.BRANCH_NAME}"
+        }
+        success {
+            echo 'Pipeline başarıyla tamamlandı!'
+        }
+        failure {
+            echo 'Pipeline başarısız oldu!'
         }
     }
 }
